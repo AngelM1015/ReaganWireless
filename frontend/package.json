@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.1.33",
+    "@nuxtjs/google-fonts": "3.0.0-0",
+    "@nuxtjs/tailwindcss": "^5.3.3",
+    "@unocss/nuxt": "^0.45.26",
+    "@unocss/preset-icons": "^0.45.26",
+    "nuxt": "3.0.0-rc.11",
+    "prettier": "^2.8.0",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "@nuxt/image": "^0.7.1",
+    "@pinia/nuxt": "^0.4.3",
+    "axios": "^1.1.2",
+    "vue": "^3.2.40",
+    "vue-country-region-select": "^2.0.16",
+    "vue-gtag-next": "^1.14.0",
+    "vue-sidebar-menu": "^5.2.4",
+    "vue3-carousel": "^0.2.0"
+  }
+}
