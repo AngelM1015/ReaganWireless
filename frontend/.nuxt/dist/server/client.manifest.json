@@ -6,10 +6,10 @@
     "module": true,
     "resourceType": "script"
   },
-  "/Users/iquit/Desktop/Reagan/frontend/node_modules/nuxt/dist/app/entry.mjs": {
+  "/Users/iquit/Desktop/_/Reagan_Corp. /Reagan/frontend/node_modules/nuxt/dist/app/entry.mjs": {
     "resourceType": "script",
     "module": true,
     "isEntry": true,
-    "file": "/Users/iquit/Desktop/Reagan/frontend/node_modules/nuxt/dist/app/entry.mjs"
+    "file": "/Users/iquit/Desktop/_/Reagan_Corp. /Reagan/frontend/node_modules/nuxt/dist/app/entry.mjs"
   }
 }

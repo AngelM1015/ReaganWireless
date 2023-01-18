@@ -1,5 +1,8 @@
 {
   // https://v3.nuxtjs.org/concepts/typescript
+  // "compilerOptions": {
+  //   "types": ["@nuxtjs/toast"]
+  // },
   "extends": "./.nuxt/tsconfig.json",
   "include": ["./custom.d.ts"],
 }

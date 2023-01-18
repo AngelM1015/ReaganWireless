@@ -12,18 +12,36 @@ export default defineNuxtConfig({
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap',
         },
+        {
+          rel: 'stylesheet',
+          href: 'https://unpkg.com/flowbite@1.6.0/dist/flowbite.min.css',
+        },
+      ],
+      script: [
+        {
+          src: 'https://unpkg.com/flowbite@1.6.0/dist/flowbite.min.js',
+        },
       ],
     },
   },
   imports: {
     dirs: ['stores'],
   },
-  alias: {
-    pinia: '/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs',
-  },
+  // alias: {
+  //   pinia: '/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs',
+  // },
+  // buildModules: [
+  //   '@nuxtjs/composition-api/module'
+  // ],
+  buildModules: ['@pinia/nuxt'
+],
+  plugins: [
+    '~/plugins/pinia-persistedstate.client'
+  ],
   modules: [
     '@nuxtjs/tailwindcss',
     '@unocss/nuxt',
+    // '@nuxtjs/toast',
     [
       '@pinia/nuxt',
       {
@@ -31,6 +49,9 @@ export default defineNuxtConfig({
       },
     ],
   ],
+  toast: {
+    position: 'top-center',
+  },
   ssr: true,
   unocss: {
     uno: false,
@@ -39,5 +60,5 @@ export default defineNuxtConfig({
   },
   nitro: {
     compressPublicAssets: true,
-  }
+  },
 })

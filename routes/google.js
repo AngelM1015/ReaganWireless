@@ -54,6 +54,7 @@ router.get("/cacheImages", async (req, res, next) => {
           if(error) console.log(error);
           else await result.forEach(element =>
             console.log(element.url)
+            //newArray.push(element.url);
             // console.log((newArray.sort().push(element.url)))
             // newArray.sort().push(element.url));
             // element.url.push(newArray));
@@ -65,8 +66,63 @@ router.get("/cacheImages", async (req, res, next) => {
     return  newArray;
 });
 
+let hi = queryImgAgainstJson
 
-res.send(queryImgAgainstJson);
+res.send(hi);
+});
+
+router.get("/cacheImagess", async (req, res, next) => {
+  let newArray = [];
+
+  const getProducts = await generate().then((data) => {
+    let query = jp.query(data, `$..deviceJsonData`);
+    return query[0];
+  });
+
+  const getEachProduct = await generate().then((data) => {
+    let Pquery = jp.query(data, `$..deviceJsonData[*].Photos`);
+    let Dquery = jp.query(data, `$..deviceJsonData[*].Device`);
+    let both = [Pquery, Dquery]
+     let d = Dquery.map((item, i) => [item, Pquery[i]]);
+    // console.log(d);
+    // get each devices photos from query variable above
+    return d
+  });
+
+//   let queryImgAgainstJson = await getProducts.forEach((obj, i) => {
+//     // console.log("Device", obj.Device);
+//     // console.log("In Stock", obj.In_Stock);
+//     let x = [obj.Device, obj.In_Stock]
+//     let y = obj.Device.replaceAll(' ', '_').toLowerCase();
+//     let z = [obj.In_Stock]
+
+//     while(newArray.length > 0) {
+//       newArray.pop();
+//   };
+//    // return console.log(JSON.stringify(x), y);
+//     const isAllStockTrue = (z) => z === true;
+//     if (z.every(isAllStockTrue)) {
+//       // console.log("Device", JSON.stringify(obj.In_Stock));
+//       imagekit.listFiles({
+//         searchQuery :  `name:${y} `,
+//       }, async function(error, result) {
+//           if(error) console.log(error);
+//           else await result.forEach(element =>
+//             console.log(element.url)
+//             //newArray.push(element.url);
+//             // console.log((newArray.sort().push(element.url)))
+//             // newArray.sort().push(element.url));
+//             // element.url.push(newArray));
+//             // console.log(newArray);
+//             // console.log(filterItems(newArray, '/drive-download-20221013T120039Z-001/').pop());
+//           )
+//     });
+//   }
+//     return  newArray;
+// });
+
+//  res.send(queryImgAgainstJson);
+    res.send(getEachProduct)
 });
 
 router.get("/test-Image-kit", async (req, res, next) => {
@@ -102,6 +158,14 @@ async function getAuthSheets() {
     spreadsheetId,
   };
 }
+
+router.get("/test-Google", async (req, res, next) => {
+  return res.status(200).json({
+    title: "Testing Google",
+    message: "The app is working properly!",
+  });
+});
+
 
 router.get("/test-Google", async (req, res, next) => {
   return res.status(200).json({

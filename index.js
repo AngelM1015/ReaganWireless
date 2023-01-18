@@ -16,8 +16,11 @@ app.use(cors());
 
 const goog = require("./routes/google");
 const supabase = require("./routes/supabase");
+const firebase = require("./routes/firebase");
+
 app.use("/api/google", goog);
 app.use("/api/supabase", supabase);
+app.use("/api/firebase", firebase);
 
 
 app.use(express.static(path.join(__dirname, "./frontend/.output/public")));

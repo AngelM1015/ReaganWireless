@@ -1,14 +1,14 @@
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
-import googleSheetApiService from "@/services/googleSheetApiService";
-import { useProductPageStore } from "@/stores/ProductPageStore";
+import { defineComponent, onMounted } from 'vue'
+import googleSheetApiService from '@/services/googleSheetApiService'
+import { useProductPageStore } from '@/stores/ProductPageStore'
 
 export default defineComponent({
   setup() {
-    const store = useProductPageStore();
+    const store = useProductPageStore()
     return {
       store,
-    };
+    }
   },
   data() {
     return {
@@ -19,82 +19,76 @@ export default defineComponent({
       currentPage: 1,
       perPage: 12,
       pages: [],
-    };
+    }
   },
   methods: {
     setPages() {
-      this.pages = [];
-      let numberOfPages = Math.ceil(
-        this.filteredProducts.length / this.perPage
-      );
+      this.pages = []
+      let numberOfPages = Math.ceil(this.filteredProducts.length / this.perPage)
       for (let index = 1; index <= numberOfPages; index++) {
-        this.pages.push(index);
+        this.pages.push(index)
       }
     },
     paginate(products) {
-      let page = this.currentPage;
-      let perPage = this.perPage;
-      let from = page * perPage - perPage;
-      let to = page * perPage;
-      return products.slice(from, to);
+      let page = this.currentPage
+      let perPage = this.perPage
+      let from = page * perPage - perPage
+      let to = page * perPage
+      return products.slice(from, to)
     },
     searchFilter(newValue) {
-      let currentProducts = this.products;
+      let currentProducts = this.products
       let filtered = currentProducts
         .filter((product) => {
-          return product.Device.toLowerCase().includes(
-            newValue.searchWord.toLowerCase()
-          );
+          return product.Device.toLowerCase().includes(newValue.searchWord.toLowerCase())
         })
         .filter((product) => {
-          return newValue.selectedType.includes(product.Type);
+          return newValue.selectedType.includes(product.Type)
         })
         .filter((product) => {
-          return newValue.selectedBrand.length
-            ? product.Brand == newValue.selectedBrand
-            : true;
+          return newValue.selectedBrand.length ? product.Brand == newValue.selectedBrand : true
         })
         .sort((a, b) => {
-          if (newValue.sortByProperty == "Name") {
-            const nameA = a.Device.toUpperCase();
-            const nameB = b.Device.toUpperCase();
+          if (newValue.sortByProperty == 'Name') {
+            const nameA = a.Device.toUpperCase()
+            const nameB = b.Device.toUpperCase()
             if (nameA < nameB) {
-              return -1;
+              return -1
             }
             if (nameA > nameB) {
-              return 1;
+              return 1
             }
-            return 0;
-          } else if (newValue.sortByProperty == "Price") {
-            return a.A - b.A;
-          } else if (newValue.sortByProperty == "Date") {
-            const dateA = new Date(a.created_at_iso);
-            const dateB = new Date(b.created_at_iso);
-            return dateA.getTime() - dateB.getTime();
+            return 0
+          } else if (newValue.sortByProperty == 'Price') {
+            return a.A - b.A
+          } else if (newValue.sortByProperty == 'Date') {
+            const dateA = new Date(a.created_at_iso)
+            const dateB = new Date(b.created_at_iso)
+            return dateA.getTime() - dateB.getTime()
           }
-        });
-      this.filteredProducts = filtered;
+        })
+      this.filteredProducts = filtered
     },
     filterByType(newValue) {
-      let currentProducts = this.products;
+      let currentProducts = this.products
       let filtered = currentProducts.filter((product) => {
-        return product.Type.toLowerCase() == newValue.selectedType;
-      });
-      this.filteredProducts = filtered;
+        return product.Type.toLowerCase() == newValue.selectedType
+      })
+      this.filteredProducts = filtered
     },
   },
   computed: {
     displayedPosts() {
-      return this.paginate(this.filteredProducts);
+      return this.paginate(this.filteredProducts)
     },
   },
   watch: {
     filteredProducts() {
-      this.setPages();
+      this.setPages()
     },
     store: {
       handler(newValue, oldValue) {
-        this.searchFilter(newValue);
+        this.searchFilter(newValue)
       },
       deep: true,
     },
@@ -103,31 +97,28 @@ export default defineComponent({
     googleSheetApiService
       .getProducts()
       .then((response: any) => {
-        this.products = response.data;
-        this.filteredProducts = this.products;
+        this.products = response.data
+        this.filteredProducts = this.products
         let allBrandList = response.data.map((product) => {
-          return product.Brand;
-        });
+          return product.Brand
+        })
         let uniqueBrandList = allBrandList.filter((value, index, self) => {
-          return self.indexOf(value) === index;
-        });
-        this.store.setBrandList(uniqueBrandList);
-        this.loadingProducts = false;
+          return self.indexOf(value) === index
+        })
+        this.store.setBrandList(uniqueBrandList)
+        this.loadingProducts = false
       })
       .catch((e: Error) => {
-        console.log(e);
-      });
+        console.log(e)
+      })
   },
-});
+})
 </script>
 
 <template>
   <div class="py-5 min-h-[1300px] relative">
     <Spinner v-if="loadingProducts" class="mt-96" />
-    <div
-      v-else
-      class="grid grid-cols-[repeat(auto-fit,minmax(12rem,1fr))] lg:grid-cols-[repeat(3,minmax(12rem,1fr))] xl:grid-cols-[repeat(4,minmax(12rem,1fr))] gap-5"
-    >
+    <div v-else class="grid grid-cols-[repeat(auto-fit,minmax(12rem,1fr))] lg:grid-cols-[repeat(3,minmax(12rem,1fr))] xl:grid-cols-[repeat(4,minmax(12rem,1fr))] gap-5">
       <!-- class="h-90" -->
 
       <ProductCard
@@ -161,8 +152,7 @@ export default defineComponent({
               type="button"
               class="p-2 px-3 border border-gray-300 hover:bg-gray-300 mx-1 rounded"
               :class="{
-                'bg-blue-primary hover:bg-blue-primary':
-                  pageNumber == currentPage,
+                'bg-blue-primary hover:bg-blue-primary': pageNumber == currentPage,
               }"
               v-for="pageNumber in pages"
               :key="pageNumber"

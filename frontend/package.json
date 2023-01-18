@@ -21,6 +21,8 @@
     "@nuxt/image": "^0.7.1",
     "@pinia/nuxt": "^0.4.3",
     "axios": "^1.1.2",
+    "firebase": "^8.2.9",
+    "pinia-plugin-persistedstate": "^3.0.2",
     "vue": "^3.2.40",
     "vue-country-region-select": "^2.0.16",
     "vue-gtag-next": "^1.14.0",
